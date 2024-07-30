@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "SwiftBank",
   description: "SwiftBank is a modern banking platform for everyone.",
   icons:{
-    icon:'/icons/logo/svg'
+    icon:'/icons/logo.svg'
   }
 };
 
