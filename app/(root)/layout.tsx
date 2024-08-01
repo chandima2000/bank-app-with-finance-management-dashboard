@@ -1,5 +1,5 @@
 import MobileNavBar from "@/components/MobileNavBar";
-import SideBar from "@/components/SideBar";
+import LeftSideBar from "@/components/LeftSideBar";
 import Image from "next/image";
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
 
   return (
     <main className="flex h-screen w-full font-inter">
-        <SideBar user={loggedIn}/>
+        <LeftSideBar user={loggedIn}/>
 
         <div className="flex flex-col size-full">
           <div className="flex h-16 items-center justify-between p-5 shadow-creditCard sm:p-8 md:hidden">
