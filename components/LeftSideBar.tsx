@@ -27,7 +27,7 @@ declare interface SideBarProps {
     user: User;
 }
 
-export default function RightSideBar({ user }: SideBarProps) {
+export default function LeftSideBar({ user }: SideBarProps) {
 
     const pathname = usePathname();
 
