@@ -6,28 +6,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 
-
-declare type User = {
-    $id: string;
-    email: string;
-    userId: string;
-    CustomerUrl: string;
-    CustomerId: string;
-    firstName: string;
-    lastName: string;
-    address1: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    dateOfBirth: string;
-    ssn: string;
-};
-
-declare interface SideBarProps {
+declare interface LeftSideBarProps {
     user: User;
 }
 
-export default function LeftSideBar({ user }: SideBarProps) {
+export default function LeftSideBar({ user }: LeftSideBarProps) {
 
     const pathname = usePathname();
 
