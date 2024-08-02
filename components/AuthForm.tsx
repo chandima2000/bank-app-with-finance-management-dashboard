@@ -31,6 +31,7 @@ export default function AuthForm({ type }: { type: string }) {
             firstName: "",
             lastName: "",
             address: "",
+            city:"",
             state: "",
             postalCode: "",
             dob: "",
@@ -40,14 +41,6 @@ export default function AuthForm({ type }: { type: string }) {
         },
     })
 
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        setIsLoading(true)
-        console.log(values)
-        setIsLoading(false)
-    }
 
     return (
         <section
@@ -124,13 +117,21 @@ export default function AuthForm({ type }: { type: string }) {
 
                                     </div>
 
-                                    <div >
+                                    <div className='flex gap-4'>
                                         {/* Address */}
                                         <CustomInput
                                             control={form.control}
                                             name="address"
                                             label='Address'
                                             placeholder='Enter your address'
+                                        />
+
+                                         {/* City */}
+                                         <CustomInput
+                                            control={form.control}
+                                            name="city"
+                                            label='City'
+                                            placeholder='Enter your city'
                                         />
                                     </div>
                                     
