@@ -22,16 +22,26 @@ export default function AuthForm({ type }: { type: string }) {
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
-    const form = useForm<z.infer<typeof authFormSchema>>({
-        resolver: zodResolver(authFormSchema),
+    // Create utility function for User Input validation
+    const formSchema = authFormSchema(type)
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
+            firstName: "",
+            lastName: "",
+            address: "",
+            state: "",
+            postalCode: "",
+            dob: "",
+            ssn: "",
             email: "",
             password: "",
         },
     })
 
 
-    function onSubmit(values: z.infer<typeof authFormSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         setIsLoading(true)
@@ -86,21 +96,125 @@ export default function AuthForm({ type }: { type: string }) {
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
-                            {/* Email Field */}
-                            <CustomInput
-                                control={form.control}
-                                name="email"
-                                label='Email'
-                                placeholder='Enter your email'
-                            />
 
-                            {/* Password Field */}
-                            <CustomInput
-                                control={form.control}
-                                name="password"
-                                label='Password'
-                                placeholder='Enter your password'
-                            />
+                            {/* Signup form */}
+
+                            {type === 'sign-up' && (
+                                <div className="">
+
+
+
+                                    <div className="flex gap-4">
+
+                                        {/* First Name */}
+                                        <CustomInput
+                                            control={form.control}
+                                            name="firstName"
+                                            label='First Name'
+                                            placeholder='Enter your first name'
+                                        />
+
+                                        {/* Last Name */}
+                                        <CustomInput
+                                            control={form.control}
+                                            name="lastName"
+                                            label='Last Name'
+                                            placeholder='Enter your last name'
+                                        />
+
+                                    </div>
+
+                                    <div >
+                                        {/* Address */}
+                                        <CustomInput
+                                            control={form.control}
+                                            name="address"
+                                            label='Address'
+                                            placeholder='Enter your address'
+                                        />
+                                    </div>
+                                    
+                                <div className="flex gap-4">
+                                    {/* State */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="state"
+                                        label='State'
+                                        placeholder='ex: NY'
+                                    />
+
+                                    {/* Postal Code */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="postalCode"
+                                        label='Postal Code'
+                                        placeholder='ex: 1234'
+                                    />
+                                </div>
+                                    
+                                <div className="flex gap-4">
+                                    {/* DOB */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="dob"
+                                        label='Date of Birth'
+                                        placeholder='yyyy-mm-dd'
+                                    />
+
+                                    {/* SSN */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="ssn"
+                                        label='SSN'
+                                        placeholder='ex: 5678'
+                                    />
+                                </div>
+                                    
+                                    <div>
+                                        {/* Email Field */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="email"
+                                        label='Email'
+                                        placeholder='Enter your email'
+                                    />
+
+                                    {/* Password Field */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="password"
+                                        label='Password'
+                                        placeholder='Enter your password'
+                                    />
+                                    </div>
+                                    
+                                </div>
+                            )}
+
+
+                            {/* Sign In */}
+                            {type === 'sign-in' && (
+
+                                <div className="">
+                                    {/* Email Field */}
+                                    < CustomInput
+                                        control={form.control}
+                                        name="email"
+                                        label='Email'
+                                        placeholder='Enter your email'
+                                    />
+
+                                    {/* Password Field */}
+                                    <CustomInput
+                                        control={form.control}
+                                        name="password"
+                                        label='Password'
+                                        placeholder='Enter your password'
+                                    />
+                                </div>
+
+                            )}
+
 
                             <Button
                                 type="submit"
@@ -124,15 +238,15 @@ export default function AuthForm({ type }: { type: string }) {
                         </form>
                     </Form>
 
-                    <footer 
+                    <footer
                         className='flex justify-start gap-2'>
-                        <p 
+                        <p
                             className='text-14 font-normal text-gray-600 mt-5'>
-                                {type === 'sign-in' ? "Don't have an account?"  : "Already have an account?"}
-                            <Link 
-                                href= {type === 'sign-in' ? '/sign-up' : '/sign-in'} 
+                            {type === 'sign-in' ? "Don't have an account?" : "Already have an account?"}
+                            <Link
+                                href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
                                 className="text-14 cursor-pointer font-medium text-bankGradient ml-1">
-                                    {type === 'sign-in' ? ('Sign Up') : ('Sign In')}
+                                {type === 'sign-in' ? ('Sign Up') : ('Sign In')}
                             </Link>
                         </p>
                     </footer>

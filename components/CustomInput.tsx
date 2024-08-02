@@ -11,16 +11,18 @@ import { Control, FieldPath } from "react-hook-form"
 import { z } from "zod"
 import { authFormSchema } from "@/lib/utils"
 
+
+const formSchema = authFormSchema('sign-up')
 // TypeScript Declaration
 interface CustomInputProps {
-    control: Control<z.infer<typeof authFormSchema>>, 
-    name:FieldPath<z.infer<typeof authFormSchema>> , 
-    label:string, 
-    placeholder:string
+    control: Control<z.infer<typeof formSchema>>,
+    name: FieldPath<z.infer<typeof formSchema>>,
+    label: string,
+    placeholder: string
 }
 
 export default function CustomInput(
-    {control, name, label, placeholder} : CustomInputProps    
+    { control, name, label, placeholder }: CustomInputProps
 ) {
     return (
         <div>
@@ -28,10 +30,13 @@ export default function CustomInput(
                 control={control}
                 name={name}
                 render={({ field }) => (
-                    <div className="flex flex-col gap-1.5">
-                        <FormLabel className='text-14 w-full max-w-[280px] font-medium text-gray-700'>
-                           {label}
-                        </FormLabel>
+                    <div className="flex flex-col gap-2">
+                        <div className="mt-4">
+                            <FormLabel className='text-14 w-full max-w-[280px] font-medium text-gray-700'>
+                                {label}
+                            </FormLabel>
+                        </div>
+
                         <div className="flex flex-col w-full">
                             <FormControl>
                                 <Input
