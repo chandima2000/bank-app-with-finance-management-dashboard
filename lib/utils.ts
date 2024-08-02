@@ -2,9 +2,12 @@
 import { type ClassValue, clsx } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+
+//  Utility function designed to handle CSS class names efficiently
+export function cn(...inputs: ClassValue[]) {  //  can accept any number of arguments.
+  return twMerge(clsx(inputs)); //  merges Tailwind CSS classes
 }
 
 // FORMAT DATE TIME
@@ -193,3 +196,13 @@ export const getTransactionStatus = (date: Date) => {
 
   return date > twoDaysAgo ? "Processing" : "Success";
 };
+
+
+// Form Schema for Validation
+export const authFormSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6,
+    {message:"Password must contain at least 6 characters"}
+  ),
+})
+
