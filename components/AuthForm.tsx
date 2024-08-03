@@ -15,9 +15,13 @@ import CustomInput from './CustomInput'
 
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
+import { signUp } from '@/lib/actions/user.actions'
 
 export default function AuthForm({ type }: { type: string }) {
 
+    const router = useRouter();
 
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +29,7 @@ export default function AuthForm({ type }: { type: string }) {
     // Create utility function for User Input validation
     const formSchema = authFormSchema(type)
 
+    // This is from NextJs/Form package
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -41,6 +46,36 @@ export default function AuthForm({ type }: { type: string }) {
         },
     })
 
+    
+    // Define the Form Submit Handler
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
+        try {
+            
+            if(type === 'sign-up'){
+                const newUser = await signUp(data) // Create a NewUser
+                setUser(newUser)
+            }
+
+            if(type === 'sign-in'){
+                // Get signIn Data
+            //     const userData = {
+            //         email: data.email,
+            //         password: data.password
+            //     }
+            //     const response = await signIn(userData)
+            //     if(response) {
+            //         router.push("/")
+            //     }
+             }
+
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setIsLoading(false)
+        }
+    }
 
     return (
         <section
