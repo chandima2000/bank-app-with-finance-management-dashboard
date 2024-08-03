@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { sidebarLinks } from '@/constants';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import { Footer } from './Footer';
 
 
 declare interface MobileNavProps {
@@ -92,6 +93,7 @@ export default function MobileNavBar(
                                 })}
                             </nav>
                         </SheetClose>
+                        <Footer user={user} type="mobile"/>
                     </div>
                 </SheetContent>
             </Sheet>

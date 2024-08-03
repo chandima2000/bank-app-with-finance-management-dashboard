@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
+import { Footer } from './Footer';
 
 declare interface LeftSideBarProps {
     user: User;
@@ -64,7 +65,8 @@ export default function LeftSideBar({ user }: LeftSideBarProps) {
                 })}
 
             </nav>
-
+                {/* footer */}
+                <Footer user={user} type="desktop"/>
         </section>
     )
 }

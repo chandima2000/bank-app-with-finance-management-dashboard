@@ -4,6 +4,7 @@ import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
+import { redirect } from "next/navigation";
 
 
 // Type Alias
@@ -91,4 +92,18 @@ export async function getLoggedInUser() {
   } catch (error) {
     return null;
   }
+}
+
+// Logout Account Function (read Appwrite Documentation, SSR section)
+export const logoutAccount = async () => {
+
+    try {
+      const { account } = await createSessionClient();
+      cookies().delete("appwrite-session");
+      await account.deleteSession("current");
+      redirect("/sign-up")
+
+    } catch (error) {
+      console.log("Error",error)
+    }
 }
