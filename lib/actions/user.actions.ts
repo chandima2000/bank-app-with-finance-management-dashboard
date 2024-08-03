@@ -5,6 +5,8 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
 
+
+// Type Alias
 declare type SignUpParams = {
   firstName?: string;  //Make Optional
   lastName?: string;
@@ -18,9 +20,27 @@ declare type SignUpParams = {
   password: string;
 };
 
-export const signIn = async () => {
+//  Interface
+declare interface signInProps {
+  email: string;
+  password: string;
+}
+
+export const signIn = async ({email,password} : signInProps) => {
   try {
     // Mutation , Database , Fetch
+
+    // Extract the account from the "createAdminClient"
+    const { account } = await createAdminClient();
+
+    const session = await account.createEmailPasswordSession(email, password);
+
+    // Get the response in JSON format
+    const response = await parseStringify(session)
+
+    // send response to the client
+    return response;
+
   } catch (error) {
     console.log("Error", error);
   }
@@ -34,7 +54,7 @@ export const signUp = async (userData: SignUpParams) => {
 
     // Extract the account from the "createAdminClient"
     const { account } = await createAdminClient();
-    
+
     // create a new user account
     const newUserAccount =  await account.create(ID.unique(), 
       email, 

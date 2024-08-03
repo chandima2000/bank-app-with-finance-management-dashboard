@@ -17,7 +17,7 @@ import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-import { signUp } from '@/lib/actions/user.actions'
+import { signIn, signUp } from '@/lib/actions/user.actions'
 
 export default function AuthForm({ type }: { type: string }) {
 
@@ -51,6 +51,8 @@ export default function AuthForm({ type }: { type: string }) {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+
+
         try {
             
             if(type === 'sign-up'){
@@ -58,16 +60,15 @@ export default function AuthForm({ type }: { type: string }) {
                 setUser(newUser)
             }
 
+            // Destructure email, password from the FormData
+            const {email,password} = data
+
             if(type === 'sign-in'){
-                // Get signIn Data
-            //     const userData = {
-            //         email: data.email,
-            //         password: data.password
-            //     }
-            //     const response = await signIn(userData)
-            //     if(response) {
-            //         router.push("/")
-            //     }
+            
+                const response = await signIn({email,password})
+                if(response) {
+                    router.push("/")
+                }
              }
 
         } catch (error) {
