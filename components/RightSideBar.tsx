@@ -4,6 +4,23 @@ import React from 'react'
 import BankCard from './BankCard';
 
 
+declare type User = {
+    $id: string;
+    email: string;
+    userId: string;
+    dwollaCustomerUrl: string;
+    dwollaCustomerId: string;
+    firstName: string;
+    lastName: string;
+    name:string;
+    address1: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    dateOfBirth: string;
+    ssn: string;
+};
+
 declare interface RightSidebarProps {
     user: User;
     transactions: Transaction[];
@@ -23,13 +40,13 @@ export default function RightSideBar({
                 <div className="flex flex-row pl-6  max-xl:justify-center gap-4 items-center">
                     <div className="flex-center mt-10 size-14 rounded-full bg-gray-700 border-8 p-2 shadow-profile">
                         <span className='text-xl font-bold text-white '>
-                            {user.firstName[0]}
+                            {user.name}
                         </span>
                     </div>
 
                     <div className="flex flex-col mt-10">
                         <h1 className='text-14 font-semibold text-gray-900'>
-                            {user.firstName} {user.lastName}
+                            {user.name}
                         </h1>
                         <p className="text-16 font-normal text-gray-600">
                             {user.email}

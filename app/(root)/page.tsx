@@ -1,15 +1,13 @@
 import Header from "@/components/Header";
 import RightSideBar from "@/components/RightSideBar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
+import { getLoggedInUser } from "@/lib/actions/user.actions";
 
 
-export default function Home() {
+const Home = async () => {
 
-  const loggedIn = {
-    firstName: "Chandima", 
-    lastName:"Maduwantha",
-    email:"hychandima2000@gmail.com"
-   }
+  const loggedIn = await getLoggedInUser();
+
   return (
     <section className="no-scrollbar flex flex-row w-full max-xl:max-h-screen max-xl:overflow-y-scroll">
       <div className="no-scrollbar flex w-full flex-1 flex-col gap-8 px-5 sm:px-8 py-7 lg:py-12 xl:max-h-screen xl:overflow-y-scroll">
@@ -17,7 +15,7 @@ export default function Home() {
           <Header
             type="greeting"
             title="welcome"
-            user={loggedIn?.firstName || "guest"}
+            user={loggedIn?.name || "guest"}
             subtext="Access and Manage your accounts and Transactions Efficiently."
           />
 
@@ -43,3 +41,5 @@ export default function Home() {
 
   )
 }
+
+export default Home;
