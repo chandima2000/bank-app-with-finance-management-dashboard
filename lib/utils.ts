@@ -201,8 +201,8 @@ export const getTransactionStatus = (date: Date) => {
 // Form Schema for Validation
 export const authFormSchema = (type : string) => z.object({
   email: z.string().email(),
-  password: z.string().min(6,
-    {message:"Password must contain at least 6 characters"}
+  password: z.string().min(8,
+    {message:"Password must contain at least 8 characters"}
   ),
   firstName: type === 'sign-in' ? z.string().optional() : z.string(),
   lastName: type === 'sign-in' ? z.string().optional() : z.string(),
