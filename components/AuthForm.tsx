@@ -18,6 +18,8 @@ import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { signIn, signUp } from '@/lib/actions/user.actions'
+import PlaidLink from './PlaidLink'
+
 
 export default function AuthForm({ type }: { type: string }) {
 
@@ -54,9 +56,23 @@ export default function AuthForm({ type }: { type: string }) {
 
 
         try {
+
+            const userData = {
+                firstName: data.firstName!,
+                lastName: data.lastName!,
+                address: data.address!,
+                city: data.city!,
+                state: data.state!,
+                postalCode: data.postalCode!,
+                dateOfBirth: data.dob!,
+                ssn: data.ssn!,
+                email: data.email,
+                password: data.password
+
+            }
             
             if(type === 'sign-up'){
-                const newUser = await signUp(data) // Create a NewUser
+                const newUser = await signUp(userData) // Create a NewUser
                 setUser(newUser)
             }
 
@@ -116,6 +132,7 @@ export default function AuthForm({ type }: { type: string }) {
             {user ? (
                 <div className="flex flex-col gap-4">
                     {/* Paid Link */}
+                    <PlaidLink user={user} variant="primary"/>
                 </div>
             ) : (
                 <div>
