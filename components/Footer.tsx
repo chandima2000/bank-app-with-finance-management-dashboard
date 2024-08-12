@@ -20,14 +20,14 @@ export const Footer = ({ user, type = "desktop" }: FooterProps) => {
             {/* Profile First Name */}
             <div className={type === 'mobile' ? "footer_name-mobile" : "footer_name-desktop"}>
                 <p className='text-xl font-bold text-gray-700'>
-                    {user?.name[0]}
+                    {user.firstName[0]}
                 </p>
             </div>
 
             {/* Username & Email */}
             <div className={type === 'mobile' ? "footer_email-mobile" : "footer_email-desktop"}>
                 <p className='text-14 truncate font-normal text-gray-600'>{user?.email}</p>
-                <h1 className='text-14 truncate text-gray-700 font-semibold'>{user?.name}</h1>
+                <h1 className='text-14 truncate text-gray-700 font-semibold'>{user.firstName} {user.lastName}</h1>
             </div>
 
             {/* Logout Button */}

@@ -10,6 +10,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function DoughnutChart({
   accounts
 }: DoughnutChartProps) {
+
+  const accountNames = accounts.map((a) => a.name);
+  const balances = accounts.map((a) => a.currentBalance)
+
   const data = {
     datasets: [
       {

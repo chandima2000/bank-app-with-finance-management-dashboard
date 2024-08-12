@@ -3,7 +3,7 @@
 
 "use server";
 
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
@@ -52,6 +52,9 @@ declare interface createBankAccountProps {
   shareableId: string;
 }
 
+declare interface getUserInfoProps {
+  userId: string;
+}
 
 
 export const signIn = async ({email,password} : signInProps) => {
@@ -63,8 +66,19 @@ export const signIn = async ({email,password} : signInProps) => {
 
     const session = await account.createEmailPasswordSession(email, password);
 
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    const serverResponse = await getUserInfo({
+      userId: session.userId
+    });
+
     // Get the response in JSON format
-    const response = await parseStringify(session)
+    const response = await parseStringify(serverResponse)
 
     // send response to the client
     return response;
@@ -74,11 +88,11 @@ export const signIn = async ({email,password} : signInProps) => {
   }
 };
 
-export const signUp = async (userData: SignUpParams) => {
+export const signUp = async ({password, ...userData}: SignUpParams) => {
 
   let newUserAccount;
 
-  const {email, password, firstName, lastName} = userData;
+  const {email, firstName, lastName} = userData;
 
   try {
 
@@ -140,7 +154,9 @@ export async function getLoggedInUser() {
     // Extract the account from the "createSessionClient"
     const { account } = await createSessionClient();
 
-    const user = await account.get();
+    const result = await account.get();
+    const user = await getUserInfo({userId:result.$id})
+
     return parseStringify(user)
 
   } catch (error) {
@@ -278,5 +294,58 @@ export const createBankAccount = async ({
     return parseStringify(bankAccount);
   } catch (error) {
     console.log(error);
+  }
+}
+
+
+
+export const getBanks = async ({ userId }: getBanksProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const banks = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('userId', [userId])]
+    )
+
+    return parseStringify(banks.documents);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
+export const getBank = async ({ documentId }: getBankProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const bank = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('$id', [documentId])]
+    )
+
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const getUserInfo = async ({ userId }: getUserInfoProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const user = await database.listDocuments(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      [Query.equal('userId', [userId])]
+    )
+
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.log(error)
   }
 }
